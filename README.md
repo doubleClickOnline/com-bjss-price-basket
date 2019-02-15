@@ -1,4 +1,4 @@
-# com-bjss-price-basket
+# price-basket
 
 
 Input sample: 
