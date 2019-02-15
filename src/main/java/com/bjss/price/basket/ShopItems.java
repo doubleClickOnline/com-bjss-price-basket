@@ -3,6 +3,7 @@ package com.bjss.price.basket;
 import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -34,14 +35,12 @@ public class ShopItems {
      * @param name
      * @return
      */
-    public Item getShopItem(String name) {
+    public Optional<Item> getShopItem(String name) {
 
-        for (Item item : getShopItems()) {
-            if(item.getName().equalsIgnoreCase(name)) {
-                return item;
-            }
-        }
-        return null;
+        return getShopItems()
+                .stream()
+                .filter(item -> item.getName().equalsIgnoreCase(name))
+                .findFirst();
     }
 
     /**

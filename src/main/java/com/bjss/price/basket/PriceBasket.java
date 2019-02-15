@@ -49,7 +49,7 @@ public class PriceBasket {
         List<Item> shopCart = new LinkedList<Item>();
         for (String item : itemNames) {
             if (shopItems.existShopItem(item)) {
-                shopCart.add(shopItems.getShopItem(item));
+                shopCart.add(shopItems.getShopItem(item).get());
             } else {
                 throw new ProductNotFoundException(
                     String.format("There is missing %s in shop", item));
