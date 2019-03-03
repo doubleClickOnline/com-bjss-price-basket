@@ -1,8 +1,10 @@
+[![Build Status](https://travis-ci.org/doubleClickOnline/price-basket.svg?branch=master)](https://travis-ci.org/doubleClickOnline/price-basket)
+
 # price-basket
 
 
 Input sample: 
-```java -jar dist/com-bjss-price-basket-1.0-SNAPSHOT.jar Apples```
+```java -jar dist/com-price-basket-1.0-SNAPSHOT.jar Apples```
 
 Output sample: 
 ```
