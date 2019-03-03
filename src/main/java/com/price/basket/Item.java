@@ -1,4 +1,4 @@
-package com.bjss.price.basket;
+package com.price.basket;
 
 import lombok.*;
 

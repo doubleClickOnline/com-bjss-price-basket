@@ -1,4 +1,4 @@
-package com.bjss.price.basket;
+package com.price.basket;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
