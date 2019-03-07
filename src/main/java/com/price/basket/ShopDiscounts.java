@@ -10,8 +10,10 @@ import java.util.List;
 public class ShopDiscounts {
 
   public static final String NO_DISCOUNTS = "(no offers available)";
-  public static final String APPLES_DISCOUNT = "Apples 10% off: -10p";
-  public static final String BREAD_DISCOUNT = "Bread 50% off: -40p";
+  public static final String APPLES_DISCOUNT_TEXT = "Apples 10% off:";
+  public static final BigDecimal APPLES_DISCOUNT_AMOUNT = BigDecimal.valueOf(0.10);
+  public static final String BREAD_DISCOUNT_TEXT = "Bread 50% off:";
+  public static final BigDecimal BREAD_DISCOUNT_AMOUNT = BigDecimal.valueOf(0.40);
 
   private List<Discount> allShopDiscounts;
 
@@ -31,12 +33,12 @@ public class ShopDiscounts {
     List<Discount> allShopDiscounts = new LinkedList<Discount>();
 
     // Apples discount
-    Discount applesDiscount = new Discount(APPLES_DISCOUNT);
+    Discount applesDiscount = new Discount(APPLES_DISCOUNT_TEXT, APPLES_DISCOUNT_AMOUNT);
     applesDiscount.addDiscountCaseItem(new Item("Apples", "Bag"));
     applesDiscount.addDiscountedItem(new Item("Apples", "Bag", BigDecimal.valueOf(0.90)));
 
     // Bread discount
-    Discount breadDiscount = new Discount(BREAD_DISCOUNT);
+    Discount breadDiscount = new Discount(BREAD_DISCOUNT_TEXT, BREAD_DISCOUNT_AMOUNT);
     breadDiscount.addDiscountCaseItem(new Item("Soup", "Tin"));
     breadDiscount.addDiscountCaseItem(new Item("Soup", "Tin"));
     breadDiscount.addDiscountedItem(new Item("Bread", "Loaf", BigDecimal.valueOf(0.40)));

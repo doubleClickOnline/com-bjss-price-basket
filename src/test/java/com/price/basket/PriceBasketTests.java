@@ -48,7 +48,8 @@ public class PriceBasketTests {
   public void getApplicableDiscountsApplesTestSuccess() {
 
     // apples discount
-    Discount appleDiscount = new Discount(ShopDiscounts.APPLES_DISCOUNT);
+    Discount appleDiscount = new Discount(ShopDiscounts.APPLES_DISCOUNT_TEXT,
+        ShopDiscounts.APPLES_DISCOUNT_AMOUNT);
     appleDiscount.addDiscountCaseItem(new Item("Apples", "Bag"));
     appleDiscount.addDiscountedItem(new Item("Apples", "Bag"));
 
@@ -68,7 +69,8 @@ public class PriceBasketTests {
   public void getApplicableDiscountsBreadTestSuccess() {
 
     // bread discount
-    Discount breadDiscount = new Discount(ShopDiscounts.BREAD_DISCOUNT);
+    Discount breadDiscount = new Discount(ShopDiscounts.BREAD_DISCOUNT_TEXT,
+        ShopDiscounts.BREAD_DISCOUNT_AMOUNT);
     breadDiscount.addDiscountCaseItem(new Item("Soup", "Tin"));
     breadDiscount.addDiscountCaseItem(new Item("Soup", "Tin"));
     breadDiscount.addDiscountedItem(new Item("Bread", "Loaf", BigDecimal.valueOf(0.40)));

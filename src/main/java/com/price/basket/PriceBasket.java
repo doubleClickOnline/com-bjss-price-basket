@@ -2,8 +2,11 @@ package com.price.basket;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 /**
@@ -53,24 +56,72 @@ public class PriceBasket {
   }
 
   /**
-   * // TOOD Refactor to separate class Apply applicable discounts for shop cart
+   * // TODO Refactor to separate class Apply applicable discounts for shop cart
    */
   public List<Item> applyDiscounts(List<Item> shopCart, List<Discount> discounts)
       throws ProductNotFoundException {
 
+    List<Item> tempShopCart = new LinkedList<Item>();
+    List<Item> updateShopCart = new LinkedList<Item>();
     List<Discount> applicableDiscounts = getApplicableDiscounts(shopCart, discounts);
-    if (!applicableDiscounts.isEmpty()) {
-      for (Discount discount : applicableDiscounts) {
+    List<Discount> appliedDiscounts = new LinkedList<Discount>();
 
-        System.out.println(discount.getDiscountText());
-        shopCart.removeAll(discount.getDiscountedItems());
-        shopCart.addAll(discount.getDiscountedItems());
+    // There is applicable discount
+    if (!applicableDiscounts.isEmpty()) {
+
+      for (Item item : shopCart) {
+        tempShopCart.add(item);
+
+        for (Discount discount : discounts) {
+
+          // possible apply discount
+          if (tempShopCart.containsAll(discount.getDiscountCaseItems()) &&
+              tempShopCart.containsAll(discount.getDiscountedItems())) {
+
+            appliedDiscounts.add(discount);
+
+            // update temp shop cart
+            tempShopCart.removeAll(discount.getDiscountedItems());
+            tempShopCart.addAll(discount.getDiscountedItems());
+
+            // update final shop cart
+            updateShopCart.addAll(tempShopCart);
+            tempShopCart.clear();
+          }
+        }
       }
+
+      // not to leave part of cart left
+      if (!tempShopCart.isEmpty()) {
+        updateShopCart.addAll(tempShopCart);
+      }
+
+      // print out applied discounts
+      calcAppliedDiscounts(appliedDiscounts);
     } else {
       System.out.println(ShopDiscounts.NO_DISCOUNTS);
     }
 
-    return shopCart;
+    return updateShopCart;
+  }
+
+  public void calcAppliedDiscounts(List<Discount> appliedDiscounts) {
+
+    Map<String, BigDecimal> discountsMap = new HashMap<String, BigDecimal>();
+    appliedDiscounts.stream().forEach(discount -> {
+
+      String discountText = discount.getDiscountText();
+      BigDecimal discountAmount = discount.getDiscountAmount();
+      if (discountsMap.keySet().contains(discountText)) {
+        discountAmount = discountsMap.get(discountText).add(discountAmount);
+      }
+      discountsMap.put(discount.getDiscountText(), discountAmount);
+    });
+
+    for (Entry<String, BigDecimal> discountCase : discountsMap.entrySet()) {
+      System.out.println(
+          String.format("%s %s", discountCase.getKey(), discountCase.getValue().toString()));
+    }
   }
 
   /**
