@@ -23,8 +23,8 @@ public class Item {
   @Override
   public boolean equals(Object obj) {
     if (obj instanceof Item && name.equalsIgnoreCase(((Item) obj).getName()) &&
-          unit.equalsIgnoreCase(((Item) obj).getUnit())) {
-        return true;
+        unit.equalsIgnoreCase(((Item) obj).getUnit())) {
+      return true;
     }
     return false;
   }

@@ -10,13 +10,10 @@ import lombok.Getter;
 @Getter
 public class PriceBasket {
 
-  public static List<Item> shopCart;
+  public static void main(String... args) {
 
-  public static void main(String... args) throws ProductNotFoundException {
-
-    PriceBasket priceBasket = new PriceBasket();
     // Create shop cart from items
-    shopCart = new ShopCart(new ShopItems()).createShopCart(Arrays.asList(args));
+    List<Item> shopCart = new ShopCart(new ShopItems()).createShopCart(Arrays.asList(args));
 
     // Calc subtotal shop cart price
     System.out.println("Subtotal: £" + new ShopCart(new ShopItems()).countPrice(shopCart));

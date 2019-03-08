@@ -14,7 +14,7 @@ public class ShopItems {
   private List<Item> storeShopItems;
 
   /**
-   * Get all items list in shop
+   * @return all shop items
    */
   public List<Item> getShopItems() {
 
@@ -26,6 +26,8 @@ public class ShopItems {
 
   /**
    * Get shop item from name
+   * @param name item name
+   * @return Get shop item from name
    */
   public Optional<Item> getShopItem(String name) {
 
@@ -37,6 +39,8 @@ public class ShopItems {
 
   /**
    * Check if item exist in shop
+   * @param name item name
+   * @return Check if item exist in shop
    */
   public boolean existStoreShopItem(String name) {
 

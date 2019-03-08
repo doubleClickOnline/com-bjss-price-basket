@@ -9,7 +9,7 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 /**
- * //TODO Extract to interface All shops discounts
+ * All shop discounts
  */
 public class ShopDiscounts {
 
@@ -34,7 +34,7 @@ public class ShopDiscounts {
 
   private List<Discount> createAllShopDiscounts() {
 
-    List<Discount> allShopDiscounts = new LinkedList<Discount>();
+    allShopDiscounts = new LinkedList<>();
 
     // Apples discount
     Discount applesDiscount = new Discount(APPLES_DISCOUNT_TEXT, APPLES_DISCOUNT_AMOUNT);
@@ -55,7 +55,11 @@ public class ShopDiscounts {
   }
 
   /**
-   * Get applicable discounts for shop cart
+   *
+   * Get applicable discounts to store cart items
+   * @param shopCart store cart items
+   * @param shopDiscounts all shop discounts
+   * @return applicable shop discounts
    */
   public List<Discount> getApplicableDiscounts(List<Item> shopCart, List<Discount> shopDiscounts) {
 
@@ -68,10 +72,12 @@ public class ShopDiscounts {
   }
 
   /**
-   * Apply applicable discounts to shop cart
+   * Apply discounts to shop cart
+   * @param shopCart shop cart items
+   * @param discounts discounts
+   * @return updated shop cart items
    */
-  public List<Item> applyDiscounts(List<Item> shopCart, List<Discount> discounts)
-      throws ProductNotFoundException {
+  public List<Item> applyDiscounts(List<Item> shopCart, List<Discount> discounts) {
 
     List<Item> tempShopCart = new LinkedList<>();
     List<Item> updateShopCart = new LinkedList<>();
@@ -119,6 +125,11 @@ public class ShopDiscounts {
     return updateShopCart;
   }
 
+  /**
+   * Calculate applied discounts value
+   *
+   * @param appliedDiscounts applied discounts
+   */
   public void calcAppliedDiscounts(List<Discount> appliedDiscounts) {
 
     Map<String, BigDecimal> discountsMap = new HashMap<>();
