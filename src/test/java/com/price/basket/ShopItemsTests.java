@@ -7,21 +7,21 @@ public class ShopItemsTests {
 
   @Test
   public void checkItemExistInShopSuccess() {
-    Assertions.assertTrue(new ShopItems().existShopItem("Apples"));
+    Assertions.assertTrue(new ShopItems().existStoreShopItem("Apples"));
   }
 
   @Test
   public void checkItemExistLowerCaseInShopSuccess() {
-    Assertions.assertTrue(new ShopItems().existShopItem("apples"));
+    Assertions.assertTrue(new ShopItems().existStoreShopItem("apples"));
   }
 
   @Test
   public void checkItemExistInShopFail() {
-    Assertions.assertFalse(new ShopItems().existShopItem("NotExistItem"));
+    Assertions.assertFalse(new ShopItems().existStoreShopItem("NotExistItem"));
   }
 
   @Test
   public void checkItemExistLowerCaserInShopFail() {
-    Assertions.assertFalse(new ShopItems().existShopItem("notexistitem"));
+    Assertions.assertFalse(new ShopItems().existStoreShopItem("notexistitem"));
   }
 }

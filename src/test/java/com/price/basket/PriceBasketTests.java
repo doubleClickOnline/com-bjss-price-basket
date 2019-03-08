@@ -4,121 +4,49 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-// TODO Refactor code to increase DRY principle
 public class PriceBasketTests {
 
-  private static PriceBasket priceBasket;
+  @Test
+  public void mainTestSuccess() {
 
-  @BeforeAll
-  public static void setup() {
-    priceBasket = new PriceBasket();
+    List<Item> updatedShopCart = Arrays.asList(
+        new Item("Apples", "Bag", BigDecimal.valueOf(0.90)));
+
+    PriceBasket priceBasket = new PriceBasket();
+    priceBasket.main("Apples");
+
+    Assertions.assertEquals(updatedShopCart, priceBasket.shopCart);
+    Assertions.assertEquals(
+        Utils.findItem("Apples", updatedShopCart).get().getPrice(),
+        Utils.findItem("Apples", priceBasket.shopCart).get().getPrice());
   }
 
   @Test
-  public void createShopCartTestSuccess() {
-    List<String> itemNames = Arrays.asList(new String[]{"Apples", "Soup"});
-    List<Item> actualResult = priceBasket.createShopCart(itemNames);
+  public void mainTestFail() {
 
-    List<Item> expectedResult = new LinkedList<>();
-    expectedResult.add(new Item("Apples", "Bag"));
-    expectedResult.add(new Item("Soup", "Tin"));
+    List<Item> notUpdatedShopCart = Arrays.asList(
+        new Item("Apples", "Bag", BigDecimal.valueOf(1.00)));
 
-    Assertions.assertEquals(expectedResult, actualResult);
+    PriceBasket priceBasket = new PriceBasket();
+    priceBasket.main("Apples");
+
+    Assertions.assertEquals(notUpdatedShopCart, priceBasket.shopCart);
+    Assertions.assertNotEquals(
+        Utils.findItem("Apples", notUpdatedShopCart).get().getPrice(),
+        Utils.findItem("Apples", priceBasket.shopCart).get().getPrice());
   }
 
   @Test
-  public void createShopCartTestFail() {
+  public void mainTestProductNotFoundExceptionSuccess() {
 
-    List<String> itemNames = Arrays.asList(new String[]{"NotExistItem"});
     // thrown ProductNotFoundException exception
     assertThrows(ProductNotFoundException.class, () -> {
-      priceBasket.createShopCart(itemNames);
+      new PriceBasket().main("NotExistItem");
     });
-  }
-
-  // TODO Write more success and fail test cases
-  @Test
-  public void getApplicableDiscountsApplesTestSuccess() {
-
-    // apples discount
-    Discount appleDiscount = new Discount(ShopDiscounts.APPLES_DISCOUNT_TEXT,
-        ShopDiscounts.APPLES_DISCOUNT_AMOUNT);
-    appleDiscount.addDiscountCaseItem(new Item("Apples", "Bag"));
-    appleDiscount.addDiscountedItem(new Item("Apples", "Bag"));
-
-    List<Discount> expectedApplicableDiscounts = new LinkedList<>();
-    expectedApplicableDiscounts.add(appleDiscount);
-
-    List<Item> shopCart = priceBasket.createShopCart(
-        Arrays.asList(new String[]{"Apples", "Soup"}));
-    List<Discount> actualApplicableDiscounts =
-        priceBasket.getApplicableDiscounts(shopCart, new ShopDiscounts().getAllShopDiscounts());
-
-    Assertions.assertEquals(expectedApplicableDiscounts, actualApplicableDiscounts);
-  }
-
-  // TODO Write more success and fail test cases
-  @Test
-  public void getApplicableDiscountsBreadTestSuccess() {
-
-    // bread discount
-    Discount breadDiscount = new Discount(ShopDiscounts.BREAD_DISCOUNT_TEXT,
-        ShopDiscounts.BREAD_DISCOUNT_AMOUNT);
-    breadDiscount.addDiscountCaseItem(new Item("Soup", "Tin"));
-    breadDiscount.addDiscountCaseItem(new Item("Soup", "Tin"));
-    breadDiscount.addDiscountedItem(new Item("Bread", "Loaf", BigDecimal.valueOf(0.40)));
-
-    List<Discount> expectedApplicableDiscounts = new LinkedList<>();
-    expectedApplicableDiscounts.add(breadDiscount);
-
-    List<Item> shopCart = priceBasket.createShopCart(
-        Arrays.asList(new String[]{"Bread", "Soup", "Soup"}));
-    List<Discount> actualApplicableDiscounts =
-        priceBasket.getApplicableDiscounts(shopCart, new ShopDiscounts().getAllShopDiscounts());
-
-    Assertions.assertEquals(expectedApplicableDiscounts, actualApplicableDiscounts);
-  }
-
-  // TODO Write more success and fail test cases
-  @Test
-  public void applyDiscountsTestSuccess() {
-
-    List<Item> expectedBread = new LinkedList<>();
-    expectedBread.add(new Item("Bread", "Loaf", BigDecimal.valueOf(0.40)));
-
-    List<Item> shopCart = priceBasket.createShopCart(
-        Arrays.asList(new String[]{"Bread", "Soup", "Soup"}));
-    List<Item> updatedShopCart = priceBasket
-        .applyDiscounts(shopCart, new ShopDiscounts().getAllShopDiscounts());
-
-    // Find bread
-    List<Item> updatedBread = updatedShopCart
-        .stream()
-        .filter(item -> item.getName().equalsIgnoreCase("Bread"))
-        .collect(Collectors.toList());
-
-    Assertions.assertEquals(3, updatedShopCart.size());
-    Assertions.assertEquals(expectedBread, updatedBread);
-    Assertions.assertEquals(expectedBread.get(0).getPrice(), updatedBread.get(0).getPrice());
-  }
-
-  // TODO Write more success and fail test cases
-  @Test
-  public void countPriceTestSuccess() {
-
-    BigDecimal expectedSum = BigDecimal.valueOf(1.45);
-    List<Item> shopCart = priceBasket.createShopCart(
-        Arrays.asList(new String[]{"Bread", "Soup"}));
-
-    BigDecimal actualSum = priceBasket.countPrice(shopCart);
-    Assertions.assertEquals(expectedSum, actualSum);
   }
 
 }

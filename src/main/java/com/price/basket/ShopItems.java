@@ -11,21 +11,21 @@ import java.util.stream.Collectors;
  */
 public class ShopItems {
 
-  private List<Item> shopItems;
+  private List<Item> storeShopItems;
 
   /**
    * Get all items list in shop
    */
   public List<Item> getShopItems() {
 
-    if (null == shopItems) {
-      shopItems = createShopItems();
+    if (null == storeShopItems) {
+      storeShopItems = createStoreShopItems();
     }
-    return shopItems;
+    return storeShopItems;
   }
 
   /**
-   * // TODO Implement factory pattern Get shop item from name
+   * Get shop item from name
    */
   public Optional<Item> getShopItem(String name) {
 
@@ -38,7 +38,7 @@ public class ShopItems {
   /**
    * Check if item exist in shop
    */
-  public boolean existShopItem(String name) {
+  public boolean existStoreShopItem(String name) {
 
     return !getShopItems()
         .stream()
@@ -47,9 +47,9 @@ public class ShopItems {
         .isEmpty();
   }
 
-  private List<Item> createShopItems() {
+  private List<Item> createStoreShopItems() {
 
-    List<Item> allShopItems = new LinkedList<Item>();
+    List<Item> allShopItems = new LinkedList<>();
     allShopItems.add(new Item("Soup", "Tin", BigDecimal.valueOf(0.65)));
     allShopItems.add(new Item("Bread", "Loaf", BigDecimal.valueOf(0.80)));
     allShopItems.add(new Item("Milk", "Bottle", BigDecimal.valueOf(1.30)));
